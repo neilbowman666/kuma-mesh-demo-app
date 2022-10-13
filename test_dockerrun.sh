@@ -1,8 +1,11 @@
 #!/bin/sh
 
-VERSION=$(cat ./VERSION)
+IMAGE_VERSION=$(cat ./definitions/IMAGE_VERSION)
+IMAGE_NAME=$(cat ./definitions/IMAGE_NAME)
 
-docker stop kuma-mesh-demo-app
-docker rm kuma-mesh-demo-app
+TEST_CONTAINER_NAME=$(cat ./definitions/TEST_CONTAINER_NAME)
 
-docker run --name kuma-mesh-demo-app -p 8080:8080 okeyja/kuma-mesh-demo-app:"${VERSION}"
+docker stop "${TEST_CONTAINER_NAME}"
+docker rm "${TEST_CONTAINER_NAME}"
+
+docker run -d --name "${TEST_CONTAINER_NAME}" -p 8080:8080 "${IMAGE_NAME}:${IMAGE_VERSION}"

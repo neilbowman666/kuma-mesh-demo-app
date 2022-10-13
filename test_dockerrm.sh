@@ -1,4 +1,6 @@
 #!/bin/sh
 
-docker stop kuma-mesh-demo-app
-docker rm kuma-mesh-demo-app
+TEST_CONTAINER_NAME=$(cat ./definitions/TEST_CONTAINER_NAME)
+
+docker stop "${TEST_CONTAINER_NAME}"
+docker rm "${TEST_CONTAINER_NAME}"

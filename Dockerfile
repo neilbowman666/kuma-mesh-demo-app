@@ -1,13 +1,17 @@
-FROM busybox
+FROM golang:1.19-alpine
 
-ADD bin/demo /app/
+WORKDIR /app
 
-RUN chmod 755 /app/demo
+COPY go.mod ./
+COPY go.sum ./
+RUN go env -w GO111MODULE=on && \
+    go env -w GOPROXY=https://goproxy.cn,direct && \
+    go mod download
+
+COPY *.go ./
+
+RUN go build -o /app/demo-app
 
 EXPOSE 8080
 
-WORKDIR /app/
-
-#ENTRYPOINT ["/usr/local/bin/demo"]
-CMD ./demo
-
+CMD [ "/app/demo-app" ]
